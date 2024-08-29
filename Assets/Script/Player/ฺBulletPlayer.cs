@@ -1,0 +1,36 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BulletPlayer : MonoBehaviour
+{
+    
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Robot" )
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
+
+        if (other.tag == "Untagged")
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
+    }
+}
