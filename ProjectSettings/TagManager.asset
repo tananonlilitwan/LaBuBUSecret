@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Obstacle
+  - Health
+  - Enemy
+  - Score
+  - Bullet
+  - Robot
+  - BG
+  - EnenmyBullet
+  - Audio
   layers:
   - Default
   - TransparentFX
@@ -11,9 +20,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Obstacle
+  - Health
+  - HP
   - 
   - 
   - 
@@ -40,4 +49,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BG
+    uniqueID: 1627275313
+    locked: 0
+  - name: HP
+    uniqueID: 40630427
+    locked: 0
+  - name: Scoer
+    uniqueID: 2699148057
+    locked: 0
+  - name: Health
+    uniqueID: 3198345145
+    locked: 0
+  - name: Robot
+    uniqueID: 2986944877
+    locked: 0
+  - name: Player
+    uniqueID: 3951845911
     locked: 0
