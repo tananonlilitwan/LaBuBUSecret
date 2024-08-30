@@ -24,6 +24,8 @@ public class EnamyContro : MonoBehaviour
     
     [SerializeField] private GameObject pausePanel;
 
+    public LayerMask obstacleLayer;
+    
     void Start()
     {
         hp = 20; // Hp Robot
@@ -55,6 +57,12 @@ public class EnamyContro : MonoBehaviour
             
             // คำนวณตำแหน่งถัดไปที่ศัตรูจะเคลื่อนที่ไป
             Vector2 newPosition = (Vector2)transform.position + direction * moveSpeed * Time.deltaTime;
+
+            // ตรวจสอบว่าไม่มีสิ่งกีดขวางข้างหน้า
+            if (!IsObstacleInWay(newPosition))
+            {
+                transform.position = newPosition;
+            }
             
             // กำหนดตำแหน่งใหม่ให้กับศัตรู
             transform.position = newPosition;
@@ -124,6 +132,13 @@ public class EnamyContro : MonoBehaviour
     {
         pausePanel.SetActive(true);
         Time.timeScale = 0;
+    }
+    
+    private bool IsObstacleInWay(Vector2 targetPosition)
+    {
+        // ใช้ Physics2D เพื่อเช็คว่ามี Collider ใน Layer ที่กำหนดหรือไม่
+        Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, 0.1f, obstacleLayer);
+        return obstacle != null;
     }
    
 }

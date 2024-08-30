@@ -31,7 +31,15 @@ public class controllerplayer : MonoBehaviour
         Move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         
         //animator.SetFloat("Left", false);
-        transform.Translate(Move * MoveSpeed * Time.deltaTime);
+        //transform.Translate(Move * MoveSpeed * Time.deltaTime);
+        
+        Vector2 targetPosition = rb2D.position + Move * MoveSpeed * Time.deltaTime;
+
+        // ตรวจสอบว่ามี Obstacle อยู่ข้างหน้า
+        if (!IsObstacleInWay(targetPosition))
+        {
+            rb2D.MovePosition(targetPosition);
+        }
         
         filp();
         
@@ -40,11 +48,6 @@ public class controllerplayer : MonoBehaviour
         if (scroll != 0f)
         {
             ChangeWeapon(scroll);
-        }
-        
-        if (!IsObstacleInWay(transform.position))
-        {
-            rb2D.MovePosition(transform.position);
         }
 
     }
@@ -73,19 +76,10 @@ public class controllerplayer : MonoBehaviour
         }
     }
     
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Untagged"))
-        {
-            // ถ้าชนกับ Tag "Untagged", ป้องกันไม่ให้เคลื่อนที่
-            rb2D.velocity = Vector2.zero; // หยุดการเคลื่อนที่
-        }
-    }
-    
     private bool IsObstacleInWay(Vector2 targetPosition)
     {
-        Collider2D playerCollider = GetComponent<Collider2D>();
-        Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, playerCollider.bounds.extents.x, obstacleLayer);
+        // ใช้ Physics2D เพื่อเช็คว่ามี Collider ใน Layer ที่กำหนดหรือไม่
+        Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, 0.1f, obstacleLayer);
         return obstacle != null;
     }
     
