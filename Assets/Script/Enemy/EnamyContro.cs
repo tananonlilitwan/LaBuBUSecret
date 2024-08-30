@@ -32,6 +32,16 @@ public class EnamyContro : MonoBehaviour
         //player = GameObject.FindGameObjectWithTag("Player");
         UpdateHpUI();
         
+        // หาผู้เล่นโดยอัตโนมัติ
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+            if (player == null)
+            {
+                Debug.LogError("Player transform not found in the scene.");
+            }
+        }
+        
         // ตรวจสอบว่าตัวแปรต่างๆ ถูกกำหนดค่าแล้ว
         if (player == null)
         {
