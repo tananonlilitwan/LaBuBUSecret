@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class EnamyContro : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class EnamyContro : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
 
     public LayerMask obstacleLayer;
+
+    public GameObject[] itemDrops;
     
     void Start()
     {
@@ -110,7 +113,10 @@ public class EnamyContro : MonoBehaviour
         if (hp <= 0)
         {
             Destroy(gameObject);
-            PauseGame();
+            //PauseGame();
+            
+            // ถ้าEnamy ตาย Item จะ Dorp ออกมา
+            ItemDorp();
         }
     }
 
@@ -150,5 +156,19 @@ public class EnamyContro : MonoBehaviour
         Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, 0.1f, obstacleLayer);
         return obstacle != null;
     }
-   
+
+    private void ItemDorp()
+    {
+        if (itemDrops.Length > 0)
+        {
+            int randomIndex = Random.Range(0, itemDrops.Length);
+            Debug.Log("Dropping item: " + itemDrops[randomIndex].name);
+            Instantiate(itemDrops[randomIndex], transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        }
+        else
+        {
+            Debug.Log("No items in itemDrops array.");
+        }
+    }
+    
 }

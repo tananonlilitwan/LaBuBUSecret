@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour
                 //ย้ายไปอยู่ที่เมาล์คลิ๊ก                                       ย้ายไปตำแหน่งใหม่ 
                 PosShool.transform.position = new Vector2(hit2D.point.x, hit2D.point.y);
                 //แสดงตำแหน่งในunity
-                Debug.Log($"hit2D point: {hit2D.point.x}, {hit2D.point.y} ");
+                //Debug.Log($"hit2D point: {hit2D.point.x}, {hit2D.point.y} ");
                 
                 // FIRE BULLET in projecttile motion
                Vector2 projectile = CalculateProjecttileVelocity(ShootPoint.transform.position, hit2D.point, 1f);

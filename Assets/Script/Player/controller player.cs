@@ -11,7 +11,7 @@ public class controllerplayer : MonoBehaviour
     float MoveSpeed;
     
     
-    public Animator animator;
+    public Animator myAnimation;
     private bool isTurningLeft = false;
     //private bool isTurningRight = false;
     
@@ -23,12 +23,23 @@ public class controllerplayer : MonoBehaviour
     {
          rb2D = GetComponent<Rigidbody2D>();
          MoveSpeed = 10f;
+
+         myAnimation = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         Move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        // Animation Pliayer Walk
+        if (MoveSpeed == 0)
+        {
+            myAnimation.SetBool("Walk", false);
+        }
+        else
+        {
+            myAnimation.SetBool("Walk", true);
+        }
         
         //animator.SetFloat("Left", false);
         //transform.Translate(Move * MoveSpeed * Time.deltaTime);
@@ -49,7 +60,10 @@ public class controllerplayer : MonoBehaviour
         {
             ChangeWeapon(scroll);
         }
-
+        
+        
+        //Animation Player
+        Attack();
     }
 
     void filp()
@@ -81,6 +95,20 @@ public class controllerplayer : MonoBehaviour
         // ใช้ Physics2D เพื่อเช็คว่ามี Collider ใน Layer ที่กำหนดหรือไม่
         Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, 0.1f, obstacleLayer);
         return obstacle != null;
+    }
+    
+    //Animation Player
+    void Attack()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            myAnimation.SetBool("Attack" , true);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            myAnimation.SetBool("Attack", false);
+        }
     }
     
 }
