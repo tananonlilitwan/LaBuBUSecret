@@ -39,6 +39,11 @@ public class EnenmyBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (other.CompareTag("Untagged"))
+        {
+            // ลบ BulletPlayer ออก
+            Destroy(gameObject);
+        }
     }
     
     /*

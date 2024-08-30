@@ -14,8 +14,9 @@ public class controllerplayer : MonoBehaviour
     public Animator animator;
     private bool isTurningLeft = false;
     //private bool isTurningRight = false;
-
-
+    
+    public LayerMask obstacleLayer;
+    
     //private AudioManager audioManager;
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,11 @@ public class controllerplayer : MonoBehaviour
         if (scroll != 0f)
         {
             ChangeWeapon(scroll);
+        }
+        
+        if (!IsObstacleInWay(transform.position))
+        {
+            rb2D.MovePosition(transform.position);
         }
 
     }
@@ -65,6 +71,22 @@ public class controllerplayer : MonoBehaviour
         {
             Debug.Log("เปลี่ยนอาวุธไปด้านหลัง");
         }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Untagged"))
+        {
+            // ถ้าชนกับ Tag "Untagged", ป้องกันไม่ให้เคลื่อนที่
+            rb2D.velocity = Vector2.zero; // หยุดการเคลื่อนที่
+        }
+    }
+    
+    private bool IsObstacleInWay(Vector2 targetPosition)
+    {
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, playerCollider.bounds.extents.x, obstacleLayer);
+        return obstacle != null;
     }
     
 }

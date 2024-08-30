@@ -27,9 +27,9 @@ public class BulletPlayer : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (other.tag == "Untagged")
+        if (other.CompareTag("Untagged"))
         {
-            Destroy(other.gameObject);
+            // ลบ BulletPlayer ออก
             Destroy(gameObject);
         }
     }
