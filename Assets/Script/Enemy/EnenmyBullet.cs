@@ -35,6 +35,10 @@ public class EnenmyBullet : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+        if (other.tag == "Player" )
+        {
+            Destroy(gameObject);
+        }
     }
     
     /*

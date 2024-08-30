@@ -13,6 +13,7 @@ TagManager:
   - BG
   - EnenmyBullet
   - Audio
+  - Hp
   layers:
   - Default
   - TransparentFX

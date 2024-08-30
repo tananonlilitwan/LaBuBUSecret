@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ScorePoint : MonoBehaviour
+public class Hp : MonoBehaviour
 {
     
     public int hp;
@@ -45,11 +45,11 @@ public class ScorePoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Score" )
+        if (other.tag == "Hp" )
         {
             hp++;
-            hpText.text = "Score = " + hp;
-            hpText.text = "Score = " + hp;
+            hpText.text = "Hp = " + hp;
+            hpText.text = "Hp = " + hp;
             Destroy(other.gameObject);
             
             //audioManager.PlaySFX(audioManager.SFXSurce);
@@ -80,7 +80,7 @@ public class ScorePoint : MonoBehaviour
     }
     void UpdateHpUI()
     {
-        hpText.text = "Score = " + hp;
+        hpText.text = "Hp = " + hp;
     }
     
     private void PauseGame()
