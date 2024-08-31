@@ -2,5 +2,4 @@
 <project version="4">
   <component name="KubernetesApiProvider">{}</component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
 </project>

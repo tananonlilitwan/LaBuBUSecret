@@ -9,9 +9,8 @@ public class controllerplayer : MonoBehaviour
     Vector2 Move;
     
     float MoveSpeed;
+
     
-    
-    public Animator myAnimation;
     private bool isTurningLeft = false;
     //private bool isTurningRight = false;
     
@@ -19,19 +18,28 @@ public class controllerplayer : MonoBehaviour
     
     //private AudioManager audioManager;
     // Start is called before the first frame update
+
+    Animator myAnimation;
+    
     void Start()
     {
          rb2D = GetComponent<Rigidbody2D>();
          MoveSpeed = 10f;
 
          myAnimation = GetComponent<Animator>();
+         
     }
 
     // Update is called once per frame
     void Update()
     {
         Move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        // Animation Pliayer Walk
+        
+        //animator.SetFloat("Left", false);
+        //transform.Translate(Move * MoveSpeed * Time.deltaTime);
+        
+        Vector2 targetPosition = rb2D.position + Move * MoveSpeed * Time.deltaTime;
+
         if (MoveSpeed == 0)
         {
             myAnimation.SetBool("Walk", false);
@@ -41,11 +49,6 @@ public class controllerplayer : MonoBehaviour
             myAnimation.SetBool("Walk", true);
         }
         
-        //animator.SetFloat("Left", false);
-        //transform.Translate(Move * MoveSpeed * Time.deltaTime);
-        
-        Vector2 targetPosition = rb2D.position + Move * MoveSpeed * Time.deltaTime;
-
         // ตรวจสอบว่ามี Obstacle อยู่ข้างหน้า
         if (!IsObstacleInWay(targetPosition))
         {
@@ -63,7 +66,7 @@ public class controllerplayer : MonoBehaviour
         
         
         //Animation Player
-        Attack();
+        //Attack();
     }
 
     void filp()
@@ -97,18 +100,5 @@ public class controllerplayer : MonoBehaviour
         return obstacle != null;
     }
     
-    //Animation Player
-    void Attack()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            myAnimation.SetBool("Attack" , true);
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            myAnimation.SetBool("Attack", false);
-        }
-    }
     
 }

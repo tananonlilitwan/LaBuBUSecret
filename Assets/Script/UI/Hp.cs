@@ -25,21 +25,21 @@ public class Hp : MonoBehaviour
     void Start()
     {
         hp = 20;
-       // gameOverPanel.SetActive(false); // ปิด panel สำหรับ game over เมื่อเริ่มเกม
+        //gameOverPanel.SetActive(false); // ปิด panel สำหรับ game over เมื่อเริ่มเกม
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (hp >= 10)
+        if (hp >= 10) 
         {
             //Time.timeScale = 0f; // หยุดเวลาในเกม
-            //gameOverPanel.SetActive(true); // เปิด panel สำหรับ game over
-            /*if (Input.GetKeyDown(KeyCode.M)) //God Mode
+            ////gameOverPanel.SetActive(true); // เปิด panel สำหรับ game over
+            if (Input.GetKeyDown(KeyCode.M)) //God Mode
             {
                 Time.timeScale = 0f; // หยุดเวลาในเกม
                 PauseGame();
-            }*/
+            }
         }
     }
 
