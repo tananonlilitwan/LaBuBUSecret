@@ -52,6 +52,7 @@ public class TimeLineStarGame : MonoBehaviour
         
         #endregion
         
+        
     }
     private void PauseGame()
     {
