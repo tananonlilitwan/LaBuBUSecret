@@ -19,13 +19,15 @@ public class Hp : MonoBehaviour
     private void Awake()
     {
        //audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+       
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        hp = 20;
+        hp = 40;
         //gameOverPanel.SetActive(false); // ปิด panel สำหรับ game over เมื่อเริ่มเกม
+        UpdateHpUI();
     }
 
     // Update is called once per frame
@@ -73,7 +75,7 @@ public class Hp : MonoBehaviour
         
         if (hp <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
             PauseGame();
             //audioManager.PlaySFX(audioManager.death);
         }

@@ -9,6 +9,8 @@ public class controllerplayer : MonoBehaviour
     Vector2 Move;
     
     float MoveSpeed;
+    
+   [SerializeField] float sprintSpeed = 0f; // ความเร็วเมื่อกด Shift
 
     
     private bool isTurningLeft = false;
@@ -39,6 +41,16 @@ public class controllerplayer : MonoBehaviour
         //transform.Translate(Move * MoveSpeed * Time.deltaTime);
         
         Vector2 targetPosition = rb2D.position + Move * MoveSpeed * Time.deltaTime;
+        
+            // ตรวจสอบว่าผู้เล่นกดปุ่ม Shift หรือไม่
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            MoveSpeed = sprintSpeed; // เพิ่มความเร็วเมื่อกด Shift
+        }
+        else
+        {
+            MoveSpeed = 10f; // กลับไปใช้ความเร็วปกติเมื่อปล่อย Shift
+        }
 
         if (MoveSpeed == 0)
         {
