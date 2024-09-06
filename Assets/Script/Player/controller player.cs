@@ -26,7 +26,7 @@ public class controllerplayer : MonoBehaviour
     void Start()
     {
          rb2D = GetComponent<Rigidbody2D>();
-         MoveSpeed = 10f;
+         MoveSpeed = 20f;
 
          myAnimation = GetComponent<Animator>();
          
@@ -49,17 +49,17 @@ public class controllerplayer : MonoBehaviour
         }
         else
         {
-            MoveSpeed = 10f; // กลับไปใช้ความเร็วปกติเมื่อปล่อย Shift
+            MoveSpeed = 20f; // กลับไปใช้ความเร็วปกติเมื่อปล่อย Shift
         }
 
-        if (MoveSpeed == 0)
+        /*if (MoveSpeed == 0)
         {
             myAnimation.SetBool("Walk", false);
         }
         else
         {
             myAnimation.SetBool("Walk", true);
-        }
+        }*/
         
         // ตรวจสอบว่ามี Obstacle อยู่ข้างหน้า
         if (!IsObstacleInWay(targetPosition))
@@ -85,11 +85,13 @@ public class controllerplayer : MonoBehaviour
     {
         if (Move.x < -0.01f)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            this.GetComponent<SpriteRenderer>().flipX = false;
+            //transform.localScale = new Vector3(-1, 1, 1);
         }
         if (Move.x > -0.01f)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            this.GetComponent<SpriteRenderer>().flipX = true;
+            //transform.localScale = new Vector3(1, 1, 1);
         }
     }
     

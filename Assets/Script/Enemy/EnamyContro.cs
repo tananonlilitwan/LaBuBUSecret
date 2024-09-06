@@ -29,9 +29,16 @@ public class EnamyContro : MonoBehaviour
 
     public GameObject[] itemDrops;
     
+    [SerializeField] private float dropChance = 0.5f; // ความน่าจะเป็นในการดรอป (0.0f ถึง 1.0f)
+
+    
+    private Color originalColor;
+    private SpriteRenderer spriteRenderer;
+    
+    
     void Start()
     {
-        hp = 20; // Hp Robot
+        hp = 4; // Hp enamy
         //player = GameObject.FindGameObjectWithTag("Player");
         UpdateHpUI();
         
@@ -58,6 +65,17 @@ public class EnamyContro : MonoBehaviour
         {
             Debug.LogError("Fire point not assigned in EnamyContro.");
         }
+        
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer component not found on this GameObject.");
+        }
+        else
+        {
+            originalColor = spriteRenderer.color;
+        }
+        
         shootingTimer = shootingInterval;  // ตั้งค่า timer เริ่มต้น
     }
 
@@ -102,6 +120,8 @@ public class EnamyContro : MonoBehaviour
         {
             Destroy(other.gameObject);
             TakeDamage();
+            
+            ChangeColor(Color.red, 1f); // เปลี่ยนสีเป็นสีแดง 1 วินาที
         } 
     }
     
@@ -116,7 +136,12 @@ public class EnamyContro : MonoBehaviour
             //PauseGame();
             
             // ถ้าEnamy ตาย Item จะ Dorp ออกมา
-            ItemDorp();
+            //ItemDorp();
+            
+            if (ShouldDropItem())
+            {
+                ItemDorp();
+            }
         }
     }
 
@@ -156,7 +181,13 @@ public class EnamyContro : MonoBehaviour
         Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, 0.1f, obstacleLayer);
         return obstacle != null;
     }
-
+    
+    private bool ShouldDropItem()
+    {
+        // ใช้ Random.Range เพื่อตรวจสอบว่าควรจะดรอปไอเท็มหรือไม่
+        return Random.value <= dropChance;
+    }
+    
     private void ItemDorp()
     {
         if (itemDrops.Length > 0)
@@ -168,6 +199,24 @@ public class EnamyContro : MonoBehaviour
         else
         {
             Debug.Log("No items in itemDrops array.");
+        }
+    }
+    
+    private void ChangeColor(Color newColor, float duration)
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = newColor;
+            StartCoroutine(RestoreColorAfterDelay(duration));
+        }
+    }
+
+    private IEnumerator RestoreColorAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = originalColor;
         }
     }
     

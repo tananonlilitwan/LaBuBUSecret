@@ -8,79 +8,141 @@ using UnityEngine.UI;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] private float fireRate; // กำหนดความถี่ในการยิง (เช่น ยิงทุกๆ 2 วินาที)
     [SerializeField] private Rigidbody2D rbbulletprefab;
-    [SerializeField] private GameObject PosShool; // อะไรที่เป็นOBJ ในเกม ให้ใช้ ตัวแปรชนิด GameObject
+    [SerializeField] private GameObject PosShool;
     [SerializeField] private Transform ShootPoint;
-   
-    private float timer;
     
+    private bool doubleShot = false; // ตัวแปรเก็บสถานะการยิงสองทิศทาง
+    
+    private void Awake() //Start()
+    {
+        // เริ่มต้น Coroutine ที่จะยิงกระสุนอัตโนมัติ
+        StartCoroutine(AutoFire());
+    }
+    
+
+    private void Update()
+    {
+        
+    }
+
+    // ฟังก์ชันยิงกระสุนอัตโนมัติ
+    private IEnumerator AutoFire()
+    {
+        while (true)
+        {
+            // ยิงกระสุนอัตโนมัติทุกๆ fireRate วินาที
+            yield return new WaitForSeconds(fireRate);
+            
+            // เรียกฟังก์ชันยิงกระสุน
+            Fire();
+        }
+    }
+    
+    // ฟังก์ชันยิงกระสุน
+    private void Fire()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 10f, Color.magenta, 10f);
+
+        RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+
+        if (hit2D.collider != null)
+        {
+            // ย้าย PosShool ไปยังตำแหน่งที่ตรวจจับด้วย Raycast
+            PosShool.transform.position = new Vector2(hit2D.point.x, hit2D.point.y);
+
+            // คำนวณทิศทางการยิงไปตามเมาส์
+            Vector2 projectileDirection = CalculateProjectileVelocity(ShootPoint.position, hit2D.point, 1f);
+
+            // ยิงกระสุนในทิศทางเมาส์
+            FireInDirection(projectileDirection);
+
+            if (doubleShot)
+            {
+                // หากอยู่ในโหมดยิงสองทิศทาง ยิงกระสุนอีกสองทิศทางที่ทำมุม 45 องศากับกระสุนหลัก
+                Vector2 directionLeft = RotateVector(projectileDirection, 45);  // หมุน 45 องศาไปทางซ้าย
+                Vector2 directionRight = RotateVector(projectileDirection, -45); // หมุน 45 องศาไปทางขวา
+            
+                FireInDirection(directionLeft);  // ยิงกระสุนในทิศทางที่หมุนไปทางซ้าย
+                FireInDirection(directionRight); // ยิงกระสุนในทิศทางที่หมุนไปทางขวา
+            }
+        }
+        
+        
+        
+        // อันเเดิม
+        /*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 10f, Color.magenta, 10f);
+        
+        RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+
+        if (hit2D.centroid != null)
+        {
+            // ย้าย PosShool ไปยังตำแหน่งที่ตรวจจับด้วย Raycast
+            PosShool.transform.position = new Vector2(hit2D.point.x, hit2D.point.y);
+            
+            // คำนวณทิศทางการยิง
+            Vector2 projectile = CalculateProjectileVelocity(ShootPoint.position, hit2D.point, 1f);
+            
+            // สร้างกระสุนและยิงไปในทิศทางที่คำนวณ
+            Rigidbody2D fireBullet = Instantiate(rbbulletprefab, ShootPoint.position, Quaternion.identity);
+            fireBullet.velocity = projectile;
+        }*/
+    }
+    
+    // ฟังก์ชันยิงกระสุนในทิศทางที่กำหนด new
+    private void FireInDirection(Vector2 direction)
+    {
+        Rigidbody2D fireBullet = Instantiate(rbbulletprefab, ShootPoint.position, Quaternion.identity);
+        fireBullet.velocity = direction;
+    }
+    
+    // คำนวณความเร็วของกระสุน
+    Vector2 CalculateProjectileVelocity(Vector2 origin, Vector2 target, float t)
+    {
+        Vector2 distance = target - origin;
+        float distX = distance.x;
+        float distY = distance.y;
+
+        float velocityX = distX / t;
+        float velocityY = distY / t + 0.5f * Mathf.Abs(Physics2D.gravity.y) * t;
+        
+        return new Vector2(velocityX, velocityY);
+    }
+    
+    // ตรวจจับการชนกับ PowerUp
     private void OnTriggerEnter2D(Collider2D other)
     {
-        timer += Time.deltaTime;
-        if (other.gameObject.CompareTag("Bullet"))
+        if (other.CompareTag("PowerUp"))
         {
-            if (timer > 5)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(other.gameObject); // ทำลาย PowerUp หลังจากเก็บแล้ว
+            StartCoroutine(ActivateDoubleShot(10f)); // เปิดโหมดยิงสองทิศทางเป็นเวลา 10 วินาที
         }
     }
-    
-    // Update is called once per frame
-    void Update()
+
+    // Coroutine สำหรับเปิดใช้งานโหมดยิงสองทิศทางเป็นเวลา 10 วินาที
+    private IEnumerator ActivateDoubleShot(float duration)
     {
-        
-        if (Input.GetMouseButtonDown(0))
-        {
-            //                                      ให้ ray ไปดีเทคที่ไหน 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
-            // สร้างแสง rat                            ความยาวของแสง  สีของ ray     โชวแสง 10วิ
-            Debug.DrawRay(ray.origin, ray.direction * 10f, Color.magenta, 10f);
-
-            //                            ray ไป cos อะไรก็แล้วแต่      ระยะยิงไม่จำกัด ถ้า rayไป ชน ให้เก็บที่ hiy2d
-            RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-
-            if (hit2D.centroid != null)
-            {
-                //ย้ายไปอยู่ที่เมาล์คลิ๊ก                                       ย้ายไปตำแหน่งใหม่ 
-                PosShool.transform.position = new Vector2(hit2D.point.x, hit2D.point.y);
-                //แสดงตำแหน่งในunity
-                //Debug.Log($"hit2D point: {hit2D.point.x}, {hit2D.point.y} ");
-                
-                // FIRE BULLET in projecttile motion
-               Vector2 projectile = CalculateProjecttileVelocity(ShootPoint.transform.position, hit2D.point, 1f);
-               Rigidbody2D fireBuller = Instantiate(rbbulletprefab, ShootPoint.transform.position, quaternion.identity);
-               fireBuller.velocity = projectile;
-
-            }
-            
-        }
-        
-
-    }
-
-    //ยิง rbbulletprefab ออกไป จาก posShoot
-                       //             จุดเริ่มต้น         จุดปลายทาง            t = time เวลา
-    Vector2 CalculateProjecttileVelocity(Vector2 origin, Vector2 PosShool, float t )
-    {  
-        // ระยะทางหระว่าง จุดสองจุด
-        Vector2 distance = PosShool - origin;
-
-        float distX = distance.x;
-        float disty = distance.y;
-
-        //       ความเร็ว แกน x หาร เวลา
-        float velocityX = distX / t;
-        //       ความเร็ว แกน Y หาร เวลา บวก 0.5f คุณ ฟิสคิ 2d กาวิตี้ y คูณ เวลา
-        float velocityY = disty / t + 0.5f * Mathf.Abs(Physics2D.gravity.y) * t;
-        
-        // ส่งออกไปผ่านตัวแปร Vector2
-        Vector2 result = new Vector2(velocityX, velocityY);
-        return result;
-
+        doubleShot = true; // เปิดโหมด Double Shot
+        yield return new WaitForSeconds(duration); // รอเป็นเวลา 10 วินาที
+        doubleShot = false; // ปิดโหมด Double Shot
     }
     
     
+    // ฟังก์ชันสำหรับหมุนเวกเตอร์ new
+    private Vector2 RotateVector(Vector2 vector, float angleDegrees)
+    {
+        float angleRadians = angleDegrees * Mathf.Deg2Rad; // แปลงองศาเป็นเรเดียน
+        float cosAngle = Mathf.Cos(angleRadians);
+        float sinAngle = Mathf.Sin(angleRadians);
+
+        float rotatedX = vector.x * cosAngle - vector.y * sinAngle;
+        float rotatedY = vector.x * sinAngle + vector.y * cosAngle;
+
+        return new Vector2(rotatedX, rotatedY);
+    }
     
 }
 

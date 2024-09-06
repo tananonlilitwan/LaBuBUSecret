@@ -25,7 +25,7 @@ public class Hp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp = 40;
+        hp = 20;
         //gameOverPanel.SetActive(false); // ปิด panel สำหรับ game over เมื่อเริ่มเกม
         UpdateHpUI();
     }

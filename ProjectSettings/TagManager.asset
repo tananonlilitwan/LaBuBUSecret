@@ -14,6 +14,7 @@ TagManager:
   - EnenmyBullet
   - Audio
   - Hp
+  - PowerUp
   layers:
   - Default
   - TransparentFX

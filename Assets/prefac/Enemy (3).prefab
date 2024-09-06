@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &407997264197282708
 Transform:
   m_ObjectHideFlags: 0
@@ -178,9 +178,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   itemDrops:
-  - {fileID: 2330065814275497297, guid: ae24d7d04c327ae49b2107a621cfc893, type: 3}
-  - {fileID: 4423572051488107008, guid: 172328a0c6fb1e54a9a11f783a9eb7cc, type: 3}
-  - {fileID: 10754784954849514, guid: da2d16183c7baf945bca5e93a126cc36, type: 3}
+  - {fileID: 3715334794688713695, guid: aef82599e5d41fb458f2fff974680048, type: 3}
+  - {fileID: 3715334794688713695, guid: aef82599e5d41fb458f2fff974680048, type: 3}
+  - {fileID: 4351711618996600405, guid: 289a8a8b4cb27e745983e96b27492a37, type: 3}
 --- !u!1 &6786654817662344702
 GameObject:
   m_ObjectHideFlags: 0
