@@ -15,10 +15,15 @@ public class Projectile : MonoBehaviour
     
     private bool doubleShot = false; // ตัวแปรเก็บสถานะการยิงสองทิศทาง
     
+    
+    private AudioManager audioManager; // เสียงในเกม
     private void Awake() //Start()
     {
         // เริ่มต้น Coroutine ที่จะยิงกระสุนอัตโนมัติ
         StartCoroutine(AutoFire());
+        
+        
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>(); // เสียงในเกม
     }
     
 
@@ -37,6 +42,8 @@ public class Projectile : MonoBehaviour
             
             // เรียกฟังก์ชันยิงกระสุน
             Fire();
+            
+            audioManager.PlaySFX(audioManager.shoot); // เสียง SFX  ยิงกระสุน
         }
     }
     
@@ -119,6 +126,8 @@ public class Projectile : MonoBehaviour
         {
             Destroy(other.gameObject); // ทำลาย PowerUp หลังจากเก็บแล้ว
             StartCoroutine(ActivateDoubleShot(10f)); // เปิดโหมดยิงสองทิศทางเป็นเวลา 10 วินาที
+            
+            audioManager.PlaySFX(audioManager.Hp); // เสียง SFX Get PowerUp
         }
     }
 

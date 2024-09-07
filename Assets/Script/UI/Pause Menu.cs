@@ -14,6 +14,15 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject menuPanel;         // Panel 'menu'
     [SerializeField] private GameObject canvasPanel;       // Panel 'Canvas'
     
+    [SerializeField] private GameObject endCreditPanel;    // Panel 'EndCredit'
+    
+    private AudioManager audioManager; // เสียงในเกม
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>(); // เสียงในเกม
+       
+    }
+    
     //[SerializeField] private GameObject heavenPanel;
 
     /*void Update()
@@ -70,14 +79,22 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void Next()
+    public void EndCredit()
     {
-        SceneManager.LoadScene("UIEndCredit");
-    }
+        // ปิด Panel 'Heaven'
+        if (heavenPausePanel != null)
+        {
+            heavenPausePanel.SetActive(false);
+        }
 
-    public void Next0()
-    {
-        SceneManager.LoadScene("UIhelp 1");
+        // เปิด Panel 'EndCredit'
+        if (endCreditPanel != null)
+        {
+            endCreditPanel.SetActive(true);
+        }
+
+        // หยุดเวลาเพื่อป้องกันการกระทำอื่นในเกม
+        Time.timeScale = 0;
     }
     
     public void Next1()
@@ -85,26 +102,13 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadSceneAsync(0);
     }
     
-    public void Next2()
-    {
-        SceneManager.LoadScene("UIhelp 2");
-    }
     
     public void Next3()
     {
         SceneManager.LoadSceneAsync(1);
         Time.timeScale = 1;
     }
-
-    public void Skip()
-    {
-        SceneManager.LoadScene("UIScene");
-    }
     
-    public void Next4()
-    {
-        SceneManager.LoadScene("UIEndCredit");
-    }
     
     // ฟังก์ชันนี้จะถูกเรียกเมื่อปุ่มถูกกด
     public void OnNextButtonClick()
@@ -119,6 +123,7 @@ public class PauseMenu : MonoBehaviour
         if (heavenPausePanel != null)
         {
             heavenPausePanel.SetActive(true);
+            //audioManager.PlaySFX(audioManager.End_Win_Player_Q_Enamy); // เสียง SFX Win
         }
 
         // หยุดเวลา

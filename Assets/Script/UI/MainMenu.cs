@@ -10,10 +10,17 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] private GameObject heavenPanel; // Panel 'heaven'
     
+    [SerializeField] private GameObject howToPlayPanel;  // Panel 'HoeToPlay'
+    
+    
+    
+    private AudioManager audioManager; // เสียงในเกม
+    
     private void Start()
     {
         // หยุดเกมเมื่อเริ่มต้น (จนกว่าจะกดปุ่ม Play)
         Time.timeScale = 0;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>(); // เสียงในเกม
 
         // แสดง Panel 'menu' เมื่อเริ่มต้น
         if (menuPanel != null)
@@ -41,6 +48,18 @@ public class MainMenu : MonoBehaviour
         if (menuPanel != null)
         {
             menuPanel.SetActive(false);
+            
+            if (menuPanel.activeSelf) // ถ้า Panel ถูกเปิดอยู่
+            {
+                audioManager.StopBackgroundMusic(); // หยุดเสียงเกมโดยใช้ฟังก์ชันของ AudioManager
+            }
+            else
+            {
+                audioManager.PlayBackgroundMusic(); // เล่นเสียงเกม
+            }
+
+            // สลับการแสดงผลของ Panel
+            //menuPanel.SetActive(!menuPanel.activeSelf);
         }
 
         // เปิด Panel 'Canvas'
@@ -60,6 +79,24 @@ public class MainMenu : MonoBehaviour
         
         
     }
+
+    public void HowToPlay()
+    {
+        // ตรวจสอบว่า Panel 'menu' ไม่เป็นค่าว่างและปิดมัน
+        if (menuPanel != null)
+        {
+            menuPanel.SetActive(false);  // ปิด Panel เมนู
+            audioManager.PlaySFX(audioManager.paper); // เสียงSFX กระดาษ
+        }
+
+        // ตรวจสอบว่า Panel 'HowToPlay' ไม่เป็นค่าว่างและเปิดมัน
+        if (howToPlayPanel != null)
+        {
+            howToPlayPanel.SetActive(true);  // เปิด Panel "How To Play"
+            audioManager.PlaySFX(audioManager.paper); // เสียงSFX กระดาษ
+        }
+    }
+    
     
     /*public void PlayGame()
     {
@@ -85,6 +122,14 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
         Debug.Log("quit");
+    }
+    
+    public void StopSFX(AudioSource audioSource)
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
     }
     
     

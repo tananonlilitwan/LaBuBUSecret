@@ -14,6 +14,13 @@ public class TimeLineStarGame : MonoBehaviour
     [SerializeField] float remainingTime;
     
     [SerializeField] private GameObject pausePanel;
+    
+    private AudioManager audioManager; // เสียงในเกม
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>(); // เสียงในเกม
+       
+    }
 
     void Start()
     {
@@ -43,6 +50,7 @@ public class TimeLineStarGame : MonoBehaviour
             remainingTime = 0;
             // gameOver
             PauseGame();
+            audioManager.PlaySFX(audioManager.End_Win_Player_Q_Enamy); // เสียง SFX Win
             timerText.color = Color.red;
             
         }
@@ -58,6 +66,11 @@ public class TimeLineStarGame : MonoBehaviour
     {
         pausePanel.SetActive(true);
         Time.timeScale = 0;
+        
+        if (pausePanel.activeSelf) // ถ้า Panel ถูกเปิดอยู่
+        {
+            audioManager.StopBackgroundMusic(); // หยุดเสียงเกมโดยใช้ฟังก์ชันของ AudioManager
+        }
     }
 
     

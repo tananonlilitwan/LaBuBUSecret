@@ -9,8 +9,19 @@ public class Button5sec : MonoBehaviour
 
     void Start()
     {
-        // เริ่ม Coroutine เพื่อรอเวลา 5 วินาที แล้วเรียกใช้งานฟังก์ชัน ShowButton
-        StartCoroutine(ShowButtonAfterDelay(2f));
+        /// ตรวจสอบว่า buttonUI ได้ถูกตั้งค่าใน Inspector
+        if (buttonUI != null)
+        {
+            // ปิดปุ่มไว้ก่อน
+            buttonUI.gameObject.SetActive(false);
+
+            // เริ่ม Coroutine เพื่อรอเวลา 2 วินาที แล้วแสดงปุ่ม
+            StartCoroutine(ShowButtonAfterDelay(2f));
+        }
+        else
+        {
+            Debug.LogError("buttonUI is not assigned in the inspector.");
+        }
     }
 
     IEnumerator ShowButtonAfterDelay(float delay)

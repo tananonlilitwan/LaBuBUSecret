@@ -13,12 +13,12 @@ public class Hp : MonoBehaviour
     //public GameObject gameOverPanel;
 
     [SerializeField] private GameObject pausePanel;
-
-    //private AudioManager audioManager;
-
+    
+    
+    private AudioManager audioManager; // เสียงในเกม
     private void Awake()
     {
-       //audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+       audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>(); // เสียงในเกม
        
     }
 
@@ -54,7 +54,7 @@ public class Hp : MonoBehaviour
             hpText.text = "Hp = " + hp;
             Destroy(other.gameObject);
             
-            //audioManager.PlaySFX(audioManager.SFXSurce);
+            audioManager.PlaySFX(audioManager.Hp); // เสียงSFX Get Hp
             
         } 
         if (other.CompareTag("Enemy")) 
@@ -77,7 +77,9 @@ public class Hp : MonoBehaviour
         {
             //Destroy(gameObject);
             PauseGame();
-            //audioManager.PlaySFX(audioManager.death);
+            audioManager.PlaySFX(audioManager.End_Over_Enamy_Q_Player); // เสียง Player ตาย
+            
+            
         }
     }
     void UpdateHpUI()
@@ -89,6 +91,11 @@ public class Hp : MonoBehaviour
     {
         pausePanel.SetActive(true);
         Time.timeScale = 0;
+        
+        if (pausePanel.activeSelf) // ถ้า Panel ถูกเปิดอยู่
+        {
+            audioManager.StopBackgroundMusic(); // หยุดเสียงเกมโดยใช้ฟังก์ชันของ AudioManager
+        }
     }
     
     
