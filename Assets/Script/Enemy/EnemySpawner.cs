@@ -97,22 +97,39 @@ public class EnemySpawner : MonoBehaviour
         // ระยะเวลาพักหลังแต่ละ Wave
         float[] wavePauses = { 2f, 3f, 5f, 10f, 10f }; // แต่ละ Wave พัก 10 วินาที
 
-        for (int wave = 0; wave < waveEnemyCounts.Length; wave++)
+        // ตัวแปรเก็บจำนวนรอบที่วน
+        int roundCount = 0;
+        
+        // วนรอบการปล่อยศัตรูไปเรื่อย ๆ
+        while (true)
         {
-            Debug.Log($"Starting wave {wave + 1} with {waveEnemyCounts[wave]} enemies.");
+            // เริ่มต้นปล่อยศัตรูในแต่ละ Wave
+            for (int wave = 0; wave < waveEnemyCounts.Length; wave++)
+            {
+                Debug.Log($"Starting wave {wave + 1} with {waveEnemyCounts[wave]} enemies.");
 
-            // ปล่อยศัตรูจาก Prefab ตามจำนวนในแต่ละ Wave
-            yield return StartCoroutine(SpawnEnemies(enemyPrefabs[wave], waveEnemyCounts[wave]));
+                // ปล่อยศัตรูจาก Prefab ตามจำนวนในแต่ละ Wave
+                yield return StartCoroutine(SpawnEnemies(enemyPrefabs[wave], waveEnemyCounts[wave]));
 
-            Debug.Log($"Completed wave {wave + 1}. Waiting for {wavePauses[wave]} seconds.");
+                Debug.Log($"Completed wave {wave + 1}. Waiting for {wavePauses[wave]} seconds.");
 
-            // พักตามเวลาที่กำหนดในแต่ละ Wave
-            yield return new WaitForSeconds(wavePauses[wave]);
+                // พักตามเวลาที่กำหนดในแต่ละ Wave
+                yield return new WaitForSeconds(wavePauses[wave]);
+            }
+
+            // นับจำนวนรอบที่วน
+            roundCount++;
+
+            // แสดงข้อความจำนวนรอบที่วนครบ
+            Debug.Log($"All waves completed. Round {roundCount} finished.");
+
+            // รอ 5 วินาทีก่อนเริ่มรอบใหม่
+            yield return new WaitForSeconds(3.5f);
         }
 
-        // เมื่อปล่อยครบทุก Wave แล้ว หยุดการ Spawn
+        /*// เมื่อปล่อยครบทุก Wave แล้ว หยุดการ Spawn
         isSpawning = false;
-        Debug.Log("All waves completed.");
+        Debug.Log("All waves completed.");*/
     } 
     
     private IEnumerator SpawnEnemies(GameObject enemyPrefab, int totalCount)

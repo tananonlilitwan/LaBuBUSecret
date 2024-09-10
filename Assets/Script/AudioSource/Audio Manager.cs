@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // Import นี้สำหรับการใช้งาน Slider
 
 public class AudioManager : MonoBehaviour
 {
     
     [Header("----------------- Audio Source --------")]
     [SerializeField] AudioSource musicSource;
-    [SerializeField] AudioSource SFXHp;
+    [SerializeField] AudioSource SFXSource;
 
     [Header("----------------- Audio Clip --------")]
     public AudioClip background;
@@ -18,7 +19,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip End_Over_Enamy_Q_Player;
     public AudioClip Hp;
     public AudioClip paper;
+    public AudioClip cat;
     
+   
     
     private void Start()
     { 
@@ -29,7 +32,8 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
-        SFXHp.PlayOneShot(clip);
+        SFXSource.PlayOneShot(clip);
+        
     }
     
     public void PlayBackgroundMusic()
@@ -48,4 +52,6 @@ public class AudioManager : MonoBehaviour
             musicSource.Stop();
         }
     }
+
+    
 }

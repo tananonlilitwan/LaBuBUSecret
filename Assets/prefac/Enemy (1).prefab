@@ -180,7 +180,7 @@ SpriteRenderer:
   m_SortingLayerID: -1308022419
   m_SortingLayer: 5
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 9302e489867c28f46a39820b677bbb86, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6a763dd4df95f1e4382c17a3f7c8ae08, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -201,7 +201,7 @@ Animator:
   m_GameObject: {fileID: 6534628855779998710}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5fbe435b013549142bd93ed6dbef20bd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7f873c72ef3c08045938da6ec2bd0749, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -281,6 +281,7 @@ MonoBehaviour:
     m_Bits: 512
   itemDrops:
   - {fileID: 3715334794688713695, guid: aef82599e5d41fb458f2fff974680048, type: 3}
+  - {fileID: 4351711618996600405, guid: 44b0ccfd9f7fe0b47bdd7c4dbb864a11, type: 3}
   - {fileID: 4351711618996600405, guid: 289a8a8b4cb27e745983e96b27492a37, type: 3}
   dropChance: 0.5
 --- !u!1 &6730531792699327976

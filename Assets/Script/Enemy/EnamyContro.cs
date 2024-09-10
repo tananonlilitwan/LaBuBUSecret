@@ -35,6 +35,8 @@ public class EnamyContro : MonoBehaviour
     private Color originalColor;
     private SpriteRenderer spriteRenderer;
     
+   //public GameObject itemEffectPrefab;  // Prefab ของเอฟเฟคที่แสดงเมื่อไอเท็มดรอป
+    
     
     void Start()
     {
@@ -123,6 +125,21 @@ public class EnamyContro : MonoBehaviour
             
             ChangeColor(Color.red, 1f); // เปลี่ยนสีเป็นสีแดง 1 วินาที
         } 
+        
+        if (other.CompareTag("Spear"))
+        {
+            Destroy(other.gameObject);
+            TakeDamage();
+            
+            ChangeColor(Color.red, 1f); // เปลี่ยนสีเป็นสีแดง 1 วินาที
+        }
+        
+        if (other.CompareTag("Axe"))
+        {
+            TakeDamage();
+            
+            ChangeColor(Color.red, 1f); // เปลี่ยนสีเป็นสีแดง 1 วินาที
+        }
     }
     
     void TakeDamage()
@@ -141,6 +158,7 @@ public class EnamyContro : MonoBehaviour
             if (ShouldDropItem())
             {
                 ItemDorp();
+                //OnAnimationComplete();
             }
         }
     }
@@ -175,12 +193,33 @@ public class EnamyContro : MonoBehaviour
         Time.timeScale = 0;
     }
     
-    private bool IsObstacleInWay(Vector2 targetPosition)
+    
+    // ตรวจสอบว่าศัตรูจะชนกับผู้เล่นหรือไม่
+    private bool IsPlayerInWay(Vector2 newPosition)
+    {
+        // สร้างวงกลมเล็กๆ รอบตำแหน่งใหม่ของศัตรู
+        float radius = 0.5f;  // ปรับค่าให้เหมาะสมกับขนาดของศัตรู
+        Collider2D hit = Physics2D.OverlapCircle(newPosition, radius, LayerMask.GetMask("Player"));
+    
+        return hit != null;
+    }
+    
+    // ตรวจสอบว่ามีสิ่งกีดขวางข้างหน้าไหม
+    private bool IsObstacleInWay(Vector2 newPosition)
+    {
+        // ใช้ OverlapCircle หรือ OverlapBox เพื่อตรวจสอบสิ่งกีดขวาง
+        float radius = 2f; //0.5f;  // ปรับค่าให้เหมาะสมกับขนาดของศัตรู
+        Collider2D hit = Physics2D.OverlapCircle(newPosition, radius, LayerMask.GetMask("Obstacle"));
+    
+        return hit != null;
+    }
+    
+    /*private bool IsObstacleInWay(Vector2 targetPosition)
     {
         // ใช้ Physics2D เพื่อเช็คว่ามี Collider ใน Layer ที่กำหนดหรือไม่
         Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, 0.1f, obstacleLayer);
         return obstacle != null;
-    }
+    }*/
     
     private bool ShouldDropItem()
     {
@@ -200,6 +239,29 @@ public class EnamyContro : MonoBehaviour
         {
             Debug.Log("No items in itemDrops array.");
         }
+        
+        
+        /*if (itemDrops.Length > 0)
+        {
+            int randomIndex = Random.Range(0, itemDrops.Length);
+            Debug.Log("Dropping item: " + itemDrops[randomIndex].name);
+
+            // สร้างเอฟเฟค
+            if (itemEffectPrefab != null)
+            {
+                Instantiate(itemEffectPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+            }
+
+            // สร้างไอเท็ม
+            if (itemDrops.Length > 0)
+            {
+                Instantiate(itemDrops[randomIndex], transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+            }
+        }
+        else
+        {
+            Debug.Log("No items in itemDrops array.");
+        }*/
     }
     
     private void ChangeColor(Color newColor, float duration)
@@ -219,5 +281,5 @@ public class EnamyContro : MonoBehaviour
             spriteRenderer.color = originalColor;
         }
     }
-    
+
 }

@@ -9,13 +9,13 @@ EditorBuildSettings:
     path: Assets/Scenes/UIScene.unity
     guid: 7730c28e8b1315f48a8e5bc406b264e7
   - enabled: 0
-    path: Assets/Scenes/menu.unity
+    path: Assets/prefac/Scenes/menu.unity
     guid: beee43c8264c8be48a56e8dc0d27546e
   - enabled: 1
-    path: Assets/Scenes/MapScene.unity
+    path: Assets/prefac/Scenes/MapScene.unity
     guid: 5be4b786be126c840a9e061e1d72efbe
   - enabled: 0
-    path: Assets/Scenes/game.unity
+    path: Assets/prefac/Scenes/game.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 0
     path: Assets/Scenes/UIhelp.unity

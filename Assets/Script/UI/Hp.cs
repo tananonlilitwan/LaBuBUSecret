@@ -25,7 +25,7 @@ public class Hp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp = 20;
+        hp = 50;
         //gameOverPanel.SetActive(false); // ปิด panel สำหรับ game over เมื่อเริ่มเกม
         UpdateHpUI();
     }
@@ -47,16 +47,14 @@ public class Hp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Hp" )
+        if (other.tag == "Hp")
         {
-            hp++;
-            hpText.text = "Hp = " + hp;
+            hp += 3; // เพิ่มค่า Hp 3 หน่วย
             hpText.text = "Hp = " + hp;
             Destroy(other.gameObject);
-            
+
             audioManager.PlaySFX(audioManager.Hp); // เสียงSFX Get Hp
-            
-        } 
+        }
         if (other.CompareTag("Enemy")) 
         {
             TakeDamage();
@@ -79,8 +77,17 @@ public class Hp : MonoBehaviour
             PauseGame();
             audioManager.PlaySFX(audioManager.End_Over_Enamy_Q_Player); // เสียง Player ตาย
             
-            
+            // เรียก Coroutine เพื่อรอเวลา 2 วินาทีแล้วเปิดเสียงที่สอง
+            StartCoroutine(PlayCatSoundAfterDelay(4f)); // 2 วินาที
         }
+    }
+    IEnumerator PlayCatSoundAfterDelay(float delay) 
+    {
+        // รอเวลา delay วินาที
+        yield return new WaitForSeconds(delay);
+
+        // เล่นเสียงที่สอง (เสียงแมว)
+        audioManager.PlaySFX(audioManager.cat);
     }
     void UpdateHpUI()
     {

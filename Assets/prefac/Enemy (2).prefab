@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: -1308022419
   m_SortingLayer: 5
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: b228974cd70fa3c4986aeec4b8fdbb44, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 24a33378ebcf134458095e3c7b274c71, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ Animator:
   m_GameObject: {fileID: 2574387190304979104}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5fbe435b013549142bd93ed6dbef20bd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 35d13e2bcf24f7a45aea0cd51224b48c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -179,8 +179,10 @@ MonoBehaviour:
     m_Bits: 512
   itemDrops:
   - {fileID: 3715334794688713695, guid: aef82599e5d41fb458f2fff974680048, type: 3}
-  - {fileID: 3715334794688713695, guid: aef82599e5d41fb458f2fff974680048, type: 3}
+  - {fileID: 4351711618996600405, guid: 8311d749af6bfcb48a086d2f04f29ea2, type: 3}
   - {fileID: 4351711618996600405, guid: 289a8a8b4cb27e745983e96b27492a37, type: 3}
+  dropChance: 0.5
+  itemEffectPrefab: {fileID: 3626893082102773786, guid: ef08d4e4856ffb54aa07b7415936768e, type: 3}
 --- !u!1 &2649215050740364603
 GameObject:
   m_ObjectHideFlags: 0

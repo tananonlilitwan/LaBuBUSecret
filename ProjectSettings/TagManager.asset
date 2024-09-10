@@ -15,6 +15,9 @@ TagManager:
   - Audio
   - Hp
   - PowerUp
+  - PowerUpAtx
+  - Axe
+  - Spear
   layers:
   - Default
   - TransparentFX

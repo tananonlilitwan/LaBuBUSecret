@@ -11,7 +11,8 @@ public class DorpItemHp : MonoBehaviour
     private float timeUntilSpawn;
 
     [SerializeField] private Transform[] spawnPoints;  // จุดที่สามารถดรอปไอเท็มได้
-
+    
+    
     private void Awake()
     {
         timeUntilSpawn = spawnInterval;  // ตั้งเวลารอในการดรอปครั้งแรก
@@ -26,6 +27,7 @@ public class DorpItemHp : MonoBehaviour
             for (int i = 0; i < 1; i++)  // ทำการดรอปไอเท็ม 1 ชิ้น
             {
                 SpawnItem();  // เรียกใช้ฟังก์ชันในการดรอปไอเท็ม
+                
             }
             timeUntilSpawn = spawnInterval;  // รีเซ็ตเวลารอในการดรอปครั้งถัดไป
         }
@@ -59,4 +61,5 @@ public class DorpItemHp : MonoBehaviour
             Debug.LogError("No spawn points assigned.");
         }
     }
+    
 }

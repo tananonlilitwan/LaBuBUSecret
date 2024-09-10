@@ -23,6 +23,10 @@ public class controllerplayer : MonoBehaviour
 
     Animator myAnimation;
     
+    /*public SpriteRenderer spriteRenderer; // ใช้สำหรับเปลี่ยน sprite
+    public Sprite originalSprite; // รูปปกติของ Player
+    public Sprite hitSprite; // รูปที่จะแสดงเมื่อโดนชน*/
+    
     void Start()
     {
          rb2D = GetComponent<Rigidbody2D>();
@@ -30,6 +34,18 @@ public class controllerplayer : MonoBehaviour
 
          myAnimation = GetComponent<Animator>();
          
+         
+         // ตรวจสอบว่า spriteRenderer ถูกตั้งค่าหรือไม่
+         /*if (spriteRenderer == null)
+         {
+             spriteRenderer = GetComponent<SpriteRenderer>();
+         }
+
+         // เก็บ sprite เดิมไว้เป็น originalSprite
+         if (originalSprite == null)
+         {
+             originalSprite = spriteRenderer.sprite;
+         }*/
     }
 
     // Update is called once per frame
@@ -113,6 +129,27 @@ public class controllerplayer : MonoBehaviour
         Collider2D obstacle = Physics2D.OverlapCircle(targetPosition, 0.1f, obstacleLayer);
         return obstacle != null;
     }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // ตรวจสอบว่าชนกับ tag "EnenmyBullet" หรือไม่
+        if (other.CompareTag("EnenmyBullet"))
+        {
+            // เริ่ม Coroutine เปลี่ยน sprite
+            //StartCoroutine(ChangeSpriteTemporarily());
+        }
+    }
+    /*IEnumerator ChangeSpriteTemporarily()
+    {
+        // เปลี่ยน sprite เป็น hitSprite
+        spriteRenderer.sprite = hitSprite;
+
+        // รอเวลา 1 วินาที
+        yield return new WaitForSeconds(1f);
+
+        // เปลี่ยน sprite กลับเป็น originalSprite
+        spriteRenderer.sprite = originalSprite;
+    }*/
     
     
 }
